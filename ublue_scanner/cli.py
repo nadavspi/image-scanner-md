@@ -2,6 +2,7 @@ import typer
 import arrow
 import re
 import httpx
+import json
 from enum import Enum
 from dotenv import load_dotenv
 from ghapi.all import GhApi
@@ -23,6 +24,7 @@ class OutputOptions(str, Enum):
     cli = "cli"
     markdown = "md"
     badge = "badge"
+    json = "json"
 
 
 def filter_tags(tags: list[str], include: list[str] = None, exclude: list[str] = None):
@@ -221,5 +223,16 @@ def scan(
                     "    ",
                 )
             typer.echo(content)
+    elif output == OutputOptions.json:
+        items = list(map(lambda row: dict(
+            [ 
+             ('image_name', row[0]),
+             ('description', row[1]),
+             ('stars', row[2]),
+             ('forks', row[3]),
+             ('updated_at', row[4]),
+             ('url', row[5])]), sorted_rows))
+
+        typer.echo(json.JSONEncoder().encode(items))
     else:
         typer.echo("Sorry, don't understand output option")
