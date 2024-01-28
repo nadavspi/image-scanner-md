@@ -1,6 +1,6 @@
 # ublue-scanner
 ## Getting started
-1. Get a github personal access token that gives `packages:read` access and
+1. Get a github personal access token that gives `read:packages` access and
    put it in `.env` as `GITHUB_TOKEN`.
 
 2. Install it
